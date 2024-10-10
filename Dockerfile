@@ -1,14 +1,11 @@
-FROM python:3.10-slim
+FROM python:3.9-slim
 
-WORKDIR /rembg
+WORKDIR /app
 
-RUN pip install --upgrade pip
+COPY . /app
 
-COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN python -m pip install ".[cli]"
-RUN rembg d
+EXPOSE 8000
 
-EXPOSE 7000
-ENTRYPOINT ["rembg"]
-CMD ["--help"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
